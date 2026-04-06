@@ -96,7 +96,7 @@ class MainWindow(tk.Toplevel):
             text=f"{self.i18n.t("main_menu.choose_team")}",
             relief="solid",
             borderwidth=1,
-            command=lambda: self._set_actual_team(self.app_path),
+            command=lambda: self._set_actual_team(self.app_path, lang=self.lang),
         )
         actual_team_button.config(width=20, cursor="hand2")
         ToolTip(actual_team_button, f"{self.i18n.t("main_menu.choose_team_info")}")
@@ -154,14 +154,11 @@ class MainWindow(tk.Toplevel):
         show_results_window.focus_set()
         show_results_window.grab_set()
 
-    def _set_actual_team(self, app_path):
-        pass
-    """
-        from gui.window.set_team import SetActualTeam
-        set_team_window = SetActualTeam(master=self, app_path=app_path)
+    def _set_actual_team(self, app_path, lang):
+        from gui.window.set_team import ActualTeam
+        set_team_window = ActualTeam(master=self, app_path=app_path, lang=self.lang)
         set_team_window.focus_set()
         set_team_window.grab_set()
-    """
 
     def _help(self):
         pass

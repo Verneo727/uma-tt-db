@@ -1,6 +1,6 @@
 {
     "main_menu": {
-        "info": "Chcesz pomóc i ujrzeć tutaj swój artwork? Skontaktuj się z deweloperem!",
+        "info": "Chcesz pomóc i ujrzeć tutaj swój artwork?\nSkontaktuj się z deweloperem!",
         "pragma": "PRAGMA bazy danych:",
         "pragma_info": "Przedstawia wersję bazy danych.\nWięcej informacji w oknie 'Pomoc'.",
         "add_uma": "Dodaj Uma",
@@ -57,5 +57,11 @@
         "help": "Wybierz serię Team Trials z rozwijanej listy,\nznajdującej się na prawo, a następnie\nwprowadź w postaci liczb całkowitych zajęte miejsca.",
         "exit": "Wróć do menu",
         "save": "Zapisz wyniki"
+    },
+    "actual_team": {
+        "title":"Aktualny skład",
+        "info": "Przypisz swoje Uma do konkretnego dystansu,\nwybierając je z list.",
+        "exit":"Wróć do menu",
+        "save": "Zapisz skład"
     }
 }

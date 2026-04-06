@@ -33,6 +33,17 @@ def json_update(app_path, json_path):
     with open(config_file, "w", encoding="utf-8") as f:
         config.write(f)
 
+def load_json(app_path):
+    config_file = Path(app_path/"config.ini")
+    config = configparser.ConfigParser()
+    try:
+        config.read(config_file, encoding="utf-8")
+        if config.has_option('APP', 'json'):
+            json_path = config.get('APP', 'json')
+            return json_path
+    except Exception as e:
+        print(e)
+
 def lang_set(app_path):
     config_file = Path(app_path/"config.ini")
     config = configparser.ConfigParser()

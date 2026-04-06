@@ -57,5 +57,11 @@
         "help": "Select the Team Trials series from\nthe dropdown list on the right,\nthen enter the finishing positions as integers.",
         "exit": "Back to menu",
         "save": "Add Results"
+    },
+    "actual_team": {
+        "title":"Actual Team",
+        "info": "Assign your Umas to a specific distance\nby selecting them from the lists.",
+        "exit": "Back to menu",
+        "save": "Save Team"
     }
 }
