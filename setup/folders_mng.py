@@ -14,8 +14,11 @@ def create_folders(system, __app_name__):
 
         app_path = base_path / "MJLab" / __app_name__
 
-        app_path.mkdir(parents=True, exist_ok=True)
-        print(f"Folders created: {app_path}")
+        if app_path.exists():
+            print(f"Path already exists: {app_path}")
+        else:
+            app_path.mkdir(parents=True, exist_ok=True)
+            print(f"Folders created: {app_path}")
         return app_path
 
     except Exception as e:

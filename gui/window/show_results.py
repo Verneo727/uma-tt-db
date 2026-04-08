@@ -185,7 +185,7 @@ class ShowResults(tk.Toplevel):
                 self.selected_uma = uma_id
                 self.selected_runtype = None
 
-                self.update_clicked(f"Choose Uma: {self.selected_uma}")
+                self.update_clicked(f"{self.i18n.t("score_win.chosen_uma")}: {self.selected_uma}")
             except (IndexError, ValueError) as e:
                 print(e)
 
@@ -211,7 +211,7 @@ class ShowResults(tk.Toplevel):
                 self.selected_uma = None
                 self.selected_runtype = runtype_id
 
-                self.update_clicked(f"Choose distance: {runtype_id}")
+                self.update_clicked(f"{self.i18n.t("score_win.chosen_distance")}: {runtype_id}")
 
                 uma_ids = load_umas_by_distance(runtype_id, self.app_path)
                 uma_ids = self._show_with_act_sq(self.act_sq, uma_ids)
@@ -239,7 +239,7 @@ class ShowResults(tk.Toplevel):
                 self.selected_runtype = None
                 self.selected_uma = None
 
-                self.update_clicked(f"Choose trial: {trial_id}")
+                self.update_clicked(f"{self.i18n.t("score_win.chosen_trial")}: {trial_id}")
 
                 uma_ids = load_umas_by_trial(trial_id, self.app_path)
                 uma_ids = self._show_with_act_sq(self.act_sq, uma_ids)
