@@ -96,6 +96,19 @@
         "first2": "Aby to zrobić, kliknij 'Dodaj Uma' w menu głównym.",
         "first3": "Wprowadź jej imię, ocenę\noraz przypisz dystans z rozwijanej listy.",
         "first4": "Następnie naciśnij 'Dodaj Uma'.",
-        "first5": "Uma zostanie zapisana w bazie danych.\nZostanie jej przypisane unikalne ID, dzięki czemu będzie traktowana\njako unikalna postać. Jeżeli będziesz chciał wprowadzić lepszą wersję\ntej samej Uma, po prostu wprowadź ją jako nową."
+        "first5": "Uma zostanie zapisana w bazie danych.\nZostanie jej przypisane unikalne ID, dzięki czemu będzie traktowana\njako unikalna postać. Jeżeli będziesz chciał wprowadzić lepszą wersję\ntej samej Uma, po prostu wprowadź ją jako nową.",
+        "set_team": "Ustawianie składu",
+        "set1": "Po dodaniu kilku Uma ustaw aktualny skład,\nktóry masz w grze.",
+        "set2": "Przypisz Uma poprzez wybranie jej z listy\ndo odpowiedniego dystansu i pozycji.",
+        "set3": "Jeżeli chcesz wyczyścić dane pole, po prostu\nkliknij w skrót pozycji (np. 'PC').",
+        "set4": "Po ustawieniu wszystkich Uma, zapisz skład.",
+        "set5": "To okno odwiedzaj za każdym razem,\ngdy wprowadzasz zmiany w swoim zespole.",
+        "add_trial": "Dodawanie wyścigu TT",
+        "trial1": "Po dodaniu Uma i ustawieniu składu\nmożesz dodać wyścig Team Trials.",
+        "trial2": "Należy podać jego datę oraz dokładną godzinę.",
+        "trial3": "Przycisk 'Dzisiaj' natychmiast wprowadzi dzisiejszą datę.",
+        "trial4": "Przycisk formatu godziny oraz pole zaznaczenia 'Nie czyść'\nzachowają swoje ustawienia.",
+        "trial5": "Nie trzeba wprowadzać żadnych znaków, zostaną one dodane automatycznie.",
+        "trial6": "Po wprowadzeniu danych zapisz wyścig klikając przycisk\n'Dodaj wyścig TT' lub naciskając Enter."
     }
 }

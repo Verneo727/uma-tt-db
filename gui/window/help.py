@@ -23,7 +23,7 @@ class Help(tk.Toplevel):
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
 
-        self.page_classes = [StartPage, AddUma]
+        self.page_classes = [StartPage, AddUma, SetTeam, AddTrial]
         self.frames = {}
         self.current_index = 0
 
@@ -104,24 +104,60 @@ class AddUma(tk.Frame):
 
         tk.Label(self,
                  text=f"{self.i18n.t("help.adding_uma")}",
-                 font=("Arial", 12, "bold")
+                 font=("Arial", 18, "bold")
                  ).pack(pady=50)
-        tk.Label(self, text=f"{self.i18n.t("help.first")}").pack(pady=30)
+        tk.Label(self, text=f"{self.i18n.t("help.first")}").pack(pady=20)
         tk.Label(self, text=f"{self.i18n.t("help.first2")}").pack()
         tk.Label(self, text=f"{self.i18n.t("help.first3")}").pack()
-        img_file = resource_path(f'uma-tt-db/assets/img/add_uma.png')
-        img = Image.open(str(img_file))
-        self.add_uma_img = ImageTk.PhotoImage(img)
+        adduma_file = resource_path(f'uma-tt-db/assets/img/add_uma.png')
+        adduma_img = Image.open(str(adduma_file))
+        self.add_uma_img = ImageTk.PhotoImage(adduma_img)
         add_uma = tk.Label(self, image=self.add_uma_img)
         add_uma.pack(pady=10)
         tk.Label(self, text=f"{self.i18n.t("help.first4")}").pack(pady=7)
-        tk.Label(self, 
-                 text=f"{self.i18n.t("help.first5")}").pack()
+        tk.Label(self, text=f"{self.i18n.t("help.first5")}").pack()
 
+class SetTeam(tk.Frame):
+    def __init__(self, parent, controller, i18n):
+        super().__init__(parent)
+        self.controller = controller
+        self.i18n = i18n
 
-# test
-if __name__ == '__main__':
-    app = tk.Tk()
-    app.withdraw()
-    a = Help(master=app)
-    app.mainloop()
+        tk.Label(self,
+                 text=f"{self.i18n.t("help.set_team")}",
+                 font=("Arial", 18, "bold")
+                 ).pack(pady=50)
+        tk.Label(self, text=f"{self.i18n.t("help.set1")}").pack(pady=20)
+        tk.Label(self, text=f"{self.i18n.t("help.set2")}").pack()
+        tk.Label(self, text=f"{self.i18n.t("help.set3")}").pack()
+        setsquad_file = resource_path(f'uma-tt-db/assets/img/set_squad.png')
+        squad_img = Image.open(str(setsquad_file))
+        new_size = (320, 320)
+        squad_img = squad_img.resize(new_size, Image.LANCZOS)
+        self.set_squad_img = ImageTk.PhotoImage(squad_img)
+        set_squad = tk.Label(self, image=self.set_squad_img)
+        set_squad.pack(pady=10)
+        tk.Label(self, text=f"{self.i18n.t("help.set4")}").pack(pady=7)
+        tk.Label(self, text=f"{self.i18n.t("help.set5")}").pack()
+
+class AddTrial(tk.Frame):
+    def __init__(self, parent, controller, i18n):
+        super().__init__(parent)
+        self.controller = controller
+        self.i18n = i18n
+
+        tk.Label(self,
+                 text=f"{self.i18n.t("help.add_trial")}",
+                 font=("Arial", 18, "bold")
+                 ).pack(pady=50)
+        tk.Label(self, text=f"{self.i18n.t("help.trial1")}").pack(pady=20)
+        tk.Label(self, text=f"{self.i18n.t("help.trial2")}").pack()
+        tk.Label(self, text=f"{self.i18n.t("help.trial3")}").pack()
+        tk.Label(self, text=f"{self.i18n.t("help.trial4")}").pack()
+        tk.Label(self, text=f"{self.i18n.t("help.trial5")}").pack()
+        add_tt_file = resource_path(f'uma-tt-db/assets/img/add_tt.png')
+        add_tt_img = Image.open(str(add_tt_file))
+        self.add_tt_img = ImageTk.PhotoImage(add_tt_img)
+        add_tt = tk.Label(self, image=self.add_tt_img)
+        add_tt.pack(pady=10)
+        tk.Label(self, text=f"{self.i18n.t("help.trial6")}").pack()

@@ -96,6 +96,19 @@
         "first2": "To do this, click 'Add Uma' in the main menu.",
         "first3": "Enter her name, rating,\nand assign a distance from the dropdown list.",
         "first4": "Then, press 'Add Uma'.",
-        "first5": "The Uma will be saved in the database.\nIt will be assigned a unique ID, so it is treated\nas a unique character. If you want to enter a better version\nof the same Uma, simply add it as a new one."
+        "first5": "The Uma will be saved in the database.\nIt will be assigned a unique ID, so it is treated\nas a unique character. If you want to enter a better version\nof the same Uma, simply add it as a new one.",
+        "set_team": "Set Lineup",
+        "set1": "After adding a few Umas, set up the current team lineup\nyou are using in-game.",
+        "set2": "Assign an Uma by selecting her from the list\nto the corresponding distance and position.",
+        "set3": "If you want to clear a specific field, simply\nclick the position shortcut (e.g., 'PC').",
+        "set4": "Once all Umas are set, click 'Save Team'.",
+        "set5": "Visit this window whenever you make\nchanges to your team.",
+        "add_trial": "Add TT Race",
+        "trial1": "After adding Umas and setting the squad,\nyou can add a Team Trials race.",
+        "trial2": "Enter the date and the exact time.",
+        "trial3": "The 'Today' button will instantly fill in the current date.",
+        "trial4": "The time format button and the 'Don't clear' checkbox\nwill retain their settings.",
+        "trial5": "No need to enter any symbols; they will be added automatically.",
+        "trial6": "After entering the data, save the race by clicking\n'Add Trial' or pressing Enter."
     }
 }
