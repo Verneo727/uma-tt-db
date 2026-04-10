@@ -8,7 +8,8 @@ from database.get_uma import (
     load_uma_position,
     load_uma_name,
     load_umas_by_distance,
-    load_umas_by_trial)
+    load_umas_by_trial,
+    load_uma_result_in_trial)
 from database.get_team import load_team
 from core.i18n import I18n
 import numpy as np
@@ -240,13 +241,36 @@ class ShowResults(tk.Toplevel):
                 self.selected_uma = None
 
                 self.update_clicked(f"{self.i18n.t("score_win.chosen_trial")}: {trial_id}")
+                trial_data = self._get_full_trial_info(trial_id)
+                trial_data.sort(key=lambda x: x['dist_id'])
 
-                uma_ids = load_umas_by_trial(trial_id, self.app_path)
-                uma_ids = self._show_with_act_sq(self.act_sq, uma_ids)
+                uma_names = [f"{d['name']} ({d['dist_name']})" for d in trial_data]
+                positions = [d['pos'] for d in trial_data]
 
-                self._show_data_on_chart(uma_ids)
+                self.chart.update_data(uma_names, positions, is_bar=True)
+
             except (IndexError, ValueError) as e:
                 print(e)
+
+    def _get_full_trial_info(self, trial_id):
+        uma_ids = load_umas_by_trial(trial_id, self.app_path)
+        uma_ids = self._show_with_act_sq(self.act_sq, uma_ids)
+        results = []
+        dist_map = {0: "Sprint", 1: "Mile", 2: "Medium", 3: "Long", 4: "Dirt"}
+
+        for uma_id in uma_ids:
+            u_id = uma_id[0] if isinstance(uma_id, (list, tuple)) else uma_id
+            name = load_uma_name(u_id, self.app_path)
+
+            pos, dist_id = load_uma_result_in_trial(u_id, trial_id, self.app_path)
+
+            results.append({
+                'name': name,
+                'pos': pos,
+                'dist_id': dist_id,
+                'dist_name': dist_map.get(dist_id, "??")
+            })
+        return results
 
     def _show_with_act_sq(self, act_sq, uma_ids):
         if uma_ids is None:

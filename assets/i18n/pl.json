@@ -18,8 +18,8 @@
         "pragma_info": "Przedstawia wersję bazy danych.\nWięcej informacji w oknie 'Pomoc'.",
         "add_uma": "Dodaj Uma",
         "add_uma_info": "Dodaj nową Uma do bazy danych",
-        "add_trial": "Dodaj serię",
-        "add_trial_info": "Dodaj nową serię wyścigu Team Trials",
+        "add_trial": "Dodaj wyścig TT",
+        "add_trial_info": "Dodaj nowy wyścig Team Trials",
         "add_results": "Dodaj wynik",
         "add_results_info": "Dodaj wyniki wyścigu Team Trials",
         "show_results": "Wyświetl wyniki",
@@ -45,8 +45,8 @@
         "exit": "Wróć do menu"
     },
     "add_trial": {
-        "title": "Dodawanie serii wyścigu",
-        "info": "Wprowadź serię wyścigu do bazy danych,\npodając jej datę i godzinę.",
+        "title": "Dodawanie wyścigu TT",
+        "info": "Wprowadź wyścig TT do bazy danych,\npodając jego datę i godzinę.",
         "date": "Wprowadź datę",
         "date_info": "Wprowadź datę w formacie: YYYY-MM-DD\nNie musisz wprowadzać myślników,\nzostaną dodane automatycznie.",
         "today_btn": "Dzisiaj",
@@ -55,9 +55,9 @@
         "hour_info": "Wprowadź godzinę w formacie: HH:MM:SS\nNie musisz wprowadzać dwukropków,\nzostaną dodane automatycznie.",
         "hour_format_btn": "Wybierz format godziny.\nAby wybrać 'PM', wpisz 'p' po godzinie.\nAby wybrać 'AM', usuń 'P' w 'PM'.\nUstawienie to zostanie zapamiętane.",
         "check": "Nie czyść pola daty",
-        "check_info": "Zaznacz, by nie czyścić pola daty po dodaniu serii.\nOpcja ta zostanie zapamiętana.",
+        "check_info": "Zaznacz, by nie czyścić pola daty po dodaniu wyścigu.\nOpcja ta zostanie zapamiętana.",
         "exit": "Wróć do menu",
-        "add_trial_btn": "Dodaj serię"
+        "add_trial_btn": "Dodaj wyścig TT"
     },
     "score_win": {
         "title": "Wyniki",
@@ -66,15 +66,15 @@
         "choose": "Wybierz coś...",
         "dotyczy": "Dotyczy aktualnego składu",
         "back": "Wyjdź do menu",
-        "series": "Serie wyścigu:",
+        "series": "Wyścigi TT:",
         "chosen_uma": "Wybrano Uma",
         "chosen_distance": "Wybrano dystans",
         "chosen_trial": "Wybrano wyścig TT"
     },
     "add_results": {
         "title": "Dodawanie wyników",
-        "info": "Wprowadź pozycje Uma z danej serii wyścigów.",
-        "help": "Wybierz serię Team Trials z rozwijanej listy,\nznajdującej się na prawo, a następnie\nwprowadź w postaci liczb całkowitych zajęte miejsca.",
+        "info": "Wprowadź pozycje Uma z danego wyścigu TT.",
+        "help": "Wybierz wyścig Team Trials z rozwijanej listy,\nznajdującej się na prawo, a następnie\nwprowadź w postaci liczb całkowitych zajęte miejsca.",
         "exit": "Wróć do menu",
         "save": "Zapisz wyniki"
     },

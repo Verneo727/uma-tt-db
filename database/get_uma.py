@@ -5,6 +5,7 @@ import sqlite3
 from setup.config import load_db_path
 
 def load_umas(app_path):
+    """Retrieve Uma's ID, name and rank."""
     db_path = load_db_path(app_path)
     con = sqlite3.connect(db_path)
     cur = con.cursor()
@@ -14,6 +15,7 @@ def load_umas(app_path):
     return rows
 
 def load_umas_by_id(uma_ids, app_path):
+    """Retrieve Uma's ID, name, rank and distance."""
     db_path = load_db_path(app_path)
     con = sqlite3.connect(db_path)
     cur = con.cursor()
@@ -36,6 +38,10 @@ def load_umas_by_id(uma_ids, app_path):
     }
 
 def load_uma_position(uma_id, app_path):
+    """
+    Retrieve Uma's race positions and timestamps by her ID.
+    Results are sorted chronologically.
+    """
     db_path = load_db_path(app_path)
     con = sqlite3.connect(db_path)
     cur = con.cursor()
@@ -56,6 +62,7 @@ def load_uma_position(uma_id, app_path):
     return labels, positions
 
 def load_uma_name(uma_id, app_path):
+    """Retrieve Uma's name by her ID."""
     db_path = load_db_path(app_path)
     con = sqlite3.connect(db_path)
     cur = con.cursor()
@@ -69,6 +76,7 @@ def load_uma_name(uma_id, app_path):
         return name
 
 def load_umas_by_distance(distance_id, app_path):
+    """Retrieve all Umas for a given distance."""
     db_path = load_db_path(app_path)
     con = sqlite3.connect(db_path)
     cur = con.cursor()
@@ -79,6 +87,7 @@ def load_umas_by_distance(distance_id, app_path):
     return umas
 
 def load_umas_by_trial(serie_id, app_path):
+    """Retrieve all Umas for a given TT race."""
     db_path = load_db_path(app_path)
     con = sqlite3.connect(db_path)
     cur = con.cursor()
@@ -91,3 +100,22 @@ def load_umas_by_trial(serie_id, app_path):
     umas = cur.fetchall()
     con.close()
     return umas
+
+def load_uma_result_in_trial(uma_id, trial_id, app_path):
+    """Retrieve all Uma results and distances for a given TT race."""
+    db_path = load_db_path(app_path)
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
+    sql = f"""
+    SELECT Position, Distance_ID
+    FROM Results
+    WHERE Uma_ID = {uma_id}
+    AND Trial_ID = {trial_id}
+    """
+    cur.execute(sql)
+    res = cur.fetchone()
+    con.close
+
+    if res:
+        return res[0], res[1]
+    return 0, 0
