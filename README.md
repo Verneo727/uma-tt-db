@@ -14,45 +14,78 @@ Program works on:
 ## Installing
 
 This program is provided as source code. Installation steps vary depending on your operating system:
+
 **Linux**:
+
 Open a terminal in your desired destination folder and clone the repository:
+
 `git clone https://github.com/jamrozmat/uma-tt-db`
+
 `cd uma-tt-db`
+
 Create and activate the virtual environment:
 `python3 -m venv venv`
+
 `source venv/bin/activate`
+
 Install the required dependencies:
+
 `python3 -m pip install -r requirements.txt `
+
 Start the program:
+
 `python3 uma.py`
 
+
+
 **Windows**:
+
 Download and install **Git** from the official website: [link](https://git-scm.com/install/windows)  
+
 Download and install **Python3.13** from the official website: [link](https://www.python.org/downloads/windows/)
+
 Open CMD, navigate to your destination folder, and clone the repository:
+
 `cd your_destination_folder`
+
 `git clone https://github.com/jamrozmat/uma-tt-db`
+
 `cd uma-tt-db`
+
 Create and activate a virtual environment:
+
 `python -m venv venv`
+
 `.\venv\Scripts\activate`
+
 Install the required dependencies:
+
 `python -m pip install -r requirements.txt `
+
 Start the program:
+
 `python uma.py`
 
 ## Updating the program
 
 You can update the program to the latest version from the main branch by running the following command in your terminal:
+
 Linux:
+
 `python3 uma.py -U`
+
 Windows:
+
 `python uma.py -U`
 
 To display the help message and all available options:
+
 Linux:
+
 `python3 uma.py -h`
+
 Windows:
+
 `python uma.py -h`
 
 ### Tips
