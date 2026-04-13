@@ -82,6 +82,8 @@
     "actual_team": {
         "title":"Aktualny skład",
         "info": "Przypisz swoje Uma do konkretnego dystansu,\nwybierając je z list.",
+        "info2": "Pamiętaj, że Uma jest przypisana do konkretnego dystansu.\nJeżeli chcesz przypisać ją do innego, dodaj ją jako nową\nw docelowym dystansie.",
+        "delete_txt": "Kliknij skrót pozycji, aby wyczyścić pole.",
         "exit":"Wróć do menu",
         "save": "Zapisz skład"
     },

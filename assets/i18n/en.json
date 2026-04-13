@@ -82,6 +82,8 @@
     "actual_team": {
         "title":"Actual Team",
         "info": "Assign your Umas to a specific distance\nby selecting them from the lists.",
+        "info2": "Note that an Uma is assigned to a specific distance.\nIf you want to assign her to another, add her\nas a new one in the target distance.",
+        "delete_txt": "Click the position label to clear the field.",
         "exit": "Back to menu",
         "save": "Save Team"
     },
