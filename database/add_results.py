@@ -10,8 +10,8 @@ def add_results_to_db(inputs_to_db, app_path):
     cur = con.cursor()
 
     sql = """
-        INSERT INTO Results (Trial_ID, Uma_ID, Position, Distance_ID)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO Results (Trial_ID, Uma_ID, Position, Score, Distance_ID)
+        VALUES (?, ?, ?, ?, ?)
         """
     cur.executemany(sql, inputs_to_db)
     con.commit()

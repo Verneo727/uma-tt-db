@@ -74,10 +74,14 @@
     },
     "add_results": {
         "title": "Add Results",
-        "info": "Enter the Uma positions for the given Team Trials.",
+        "info": "Enter the Uma positions for the given Team Trials\nand, optionally, their scores.",
         "help": "Select the Team Trials series from\nthe dropdown list on the right,\nthen enter the finishing positions as integers.",
+        "pos": "position...",
+        "score": "score (optional)",
         "exit": "Back to menu",
-        "save": "Add Results"
+        "save": "Add Results",
+        "error_title": "Format Error",
+        "error": "Values must be integers!"
     },
     "actual_team": {
         "title":"Actual Team",

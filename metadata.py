@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 __author__ = "Mateusz Jamróz"
-__version__ = "0.3.7"
+__version__ = "0.3.8"
 __license__ = "GNU GPL v3.0"
 
 __contributors__ = [
@@ -9,5 +9,5 @@ __contributors__ = [
 ]
 
 __graphic_authors__ = [
-    
+
 ]

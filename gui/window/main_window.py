@@ -8,8 +8,10 @@ from core.i18n import I18n
 from core.tooltip import ToolTip
 from core.close import close
 from database.db_manager import pragma
-from metadata import __author__, __version__
 from gui.window.lang import ask_lang
+
+from metadata import __author__, __version__
+from assets.random_texts import RANDOM_TEXT
 
 class MainWindow(tk.Toplevel):
     def __init__(self, app_path, lang, __app_name__, master=None):
@@ -28,12 +30,12 @@ class MainWindow(tk.Toplevel):
 
     def _qui(self):
         # LOGO
-        # Due to the lack of suitable CC0-licensed graphics, 
-        # I cannot place anything in this section. 
-        # If you would like to help by creating your own image, 
+        # Due to the lack of suitable CC0-licensed graphics,
+        # I cannot place anything in this section.
+        # If you would like to help by creating your own image,
         # please contact the program's author.
         logo = tk.Label(
-            self, 
+            self,
             text=f"{self.i18n.t("main_menu.info")}",
             fg="gray")
         logo.pack(side="top", anchor="n", pady=10)
@@ -47,16 +49,11 @@ class MainWindow(tk.Toplevel):
 
         # GOLD RANDOM TEXT
         parent_bg = self.master.cget('bg') if hasattr(self, 'master') and self.master else "#d9d9d9"
-        self.splash_canvas = tk.Canvas(self, bg=parent_bg, highlightthickness=0, 
+        self.splash_canvas = tk.Canvas(self, bg=parent_bg, highlightthickness=0,
                                       width=400, height=50)
         self.splash_canvas.pack(anchor="e", pady=5)
-        # You can add more random text here
-        random_texts = [
-            'AGEMASEN!',
-            'Wei wei~☆!',
-            'Bakushin, Bakushin, Bakushinshin!',
-            'Haru Urara, ganbarimaaaasu~!']
-        text = random.choice(random_texts)
+        # You can add more random text in assets/random_texts.py
+        text = random.choice(RANDOM_TEXT)
         self._draw_outlined_text(self.splash_canvas, 350, 25, text)
 
         # ADD NEW UMA
@@ -263,8 +260,8 @@ class MainWindow(tk.Toplevel):
         text_font = ("Helvetica", 12, "bold")
         offsets = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         for dx, dy in offsets:
-            canvas.create_text(x + dx, y + dy, text=text_content, fill=outline_color, 
+            canvas.create_text(x + dx, y + dy, text=text_content, fill=outline_color,
                             font=text_font, anchor="e")
 
-        return canvas.create_text(x, y, text=text_content, fill=main_color, 
+        return canvas.create_text(x, y, text=text_content, fill=main_color,
                                 font=text_font, anchor="e")

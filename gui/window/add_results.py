@@ -19,7 +19,7 @@ class AddResults(tk.Toplevel):
         self.master = master
         self.i18n = I18n(language=lang)
         self.title(f"{self.i18n.t("add_results.title")}")
-        self.geometry("400x720")
+        self.geometry("520x750")
 
         self.team = load_team(app_path)
         self.combo_trials = load_trials_short(app_path)
@@ -107,13 +107,27 @@ class AddResults(tk.Toplevel):
             )
             self.uma_name_label.pack(side="left")
 
-            self.input = tk.Entry(self.row_frame, width=20)
-            self.input.pack(side="left", padx=20)
+            pos_hint = self.i18n.t('add_results.pos')
+            self.uma_position_entry = tk.Entry(self.row_frame, fg="grey", width=10)
+            self.uma_position_entry.insert(0, pos_hint)
+            self.uma_position_entry.pack(side="left", padx=(20, 5))
+            self.uma_position_entry.bind('<FocusIn>', lambda event, p=pos_hint: self._on_entry_click(event, p))
+            self.uma_position_entry.bind('<FocusOut>', lambda event, p=pos_hint: self._on_focus_out(event, p))
 
-            self.inputs[position][uma_id] = self.input
+            score_hint = self.i18n.t('add_results.score')
+            self.uma_score_entry = tk.Entry(self.row_frame, fg="grey", width=20)
+            self.uma_score_entry.insert(0, score_hint)
+            self.uma_score_entry.pack(side="left", padx=5)
+            self.uma_score_entry.bind('<FocusIn>', lambda event, p=score_hint: self._on_entry_click(event, p))
+            self.uma_score_entry.bind('<FocusOut>', lambda event, p=score_hint: self._on_focus_out(event, p))
+
+            self.inputs[position][uma_id] = {
+                "pos": self.uma_position_entry,
+                "score": self.uma_score_entry
+            }
 
         self.button_row_label = tk.Label(self)
-        self.button_row_label.pack(padx=2, pady=20)
+        self.button_row_label.pack(padx=2, pady=15)
 
         self.back_to_menu = tk.Button(
             self.button_row_label,
@@ -143,16 +157,33 @@ class AddResults(tk.Toplevel):
             return
         id_trial = selected_trial.split()[0]
 
+        pos_hint = self.i18n.t('add_results.pos')
+        score_hint = self.i18n.t('add_results.score')
+
         inputs_to_db = []
         for pos, uma_inputs in self.inputs.items():
-            for uma_id, input in uma_inputs.items():
-                result = input.get().strip()
+            for uma_id, entries in uma_inputs.items():
+                res_pos = entries["pos"].get().strip()
+                res_score = entries["score"].get().strip()
 
-                if result:
-                    uma_info = self.umas_dict.get(uma_id, {})
-                    id_distance = uma_info.get("distance")
-                    inputs_to_db.append((id_trial, uma_id, result, id_distance))
-        
+                if res_pos and res_pos != pos_hint:
+                    try:
+                        val_pos = int(res_pos)
+                        if res_score == score_hint or res_score == "":
+                            val_score = None
+                        else:
+                            val_score = int(res_score)
+
+                        uma_info = self.umas_dict.get(uma_id, {})
+                        id_distance = uma_info.get("distance")
+                        inputs_to_db.append((id_trial, uma_id, res_pos, val_score, id_distance))
+
+                    except ValueError:
+                        messagebox.showerror(
+                            self.i18n.t("add_results.error_title"),
+                            self.i18n.t("add_results.error")
+                        )
+
         if inputs_to_db:
             add_results_to_db(inputs_to_db, app_path)
             self._clear_inputs()
@@ -177,16 +208,37 @@ class AddResults(tk.Toplevel):
                 self.trial_combo.set(self.combo_trials[-1])
             else:
                 self.trial_combo.set("")
+
+        pos_hint = self.i18n.t('add_results.pos')
+        score_hint = self.i18n.t('add_results.score')
+
         for pos, uma_inputs in self.inputs.items():
-            for uma_id, input in uma_inputs.items():
-                input.delete(0, 'end')
+            for uma_id, entries in uma_inputs.items():
+                entries["pos"].delete(0, 'end')
+                entries["pos"].insert(0, pos_hint)
+                entries["pos"].config(fg="grey")
+                entries["score"].delete(0, 'end')
+                entries["score"].insert(0, score_hint)
+                entries["score"].config(fg="grey")
         if self.inputs:
             try:
                 first_pos_dict = next(iter(self.inputs.values()))
                 first_input_entry = next(iter(first_pos_dict.values()))
-                first_input_entry.focus_set()
+                first_input_entry["pos"].focus_set()
             except StopIteration:
                 pass
+
+    def _on_entry_click(self, event, pos_hint):
+        widget = event.widget
+        if widget.get() == pos_hint:
+            widget.delete(0, tk.END)
+            widget.config(fg="black")
+
+    def _on_focus_out(self, event, pos_hint):
+        widget = event.widget
+        if widget.get() == '':
+            widget.insert(0, pos_hint)
+            widget.config(fg="grey")
 
     def _exit(self):
         self.destroy()

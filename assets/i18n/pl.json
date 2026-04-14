@@ -74,10 +74,14 @@
     },
     "add_results": {
         "title": "Dodawanie wyników",
-        "info": "Wprowadź pozycje Uma z danego wyścigu TT.",
+        "info": "Wprowadź pozycje Uma z danego wyścigu TT,\noraz - opcjonalnie - ich wynik punktowy.",
         "help": "Wybierz wyścig Team Trials z rozwijanej listy,\nznajdującej się na prawo, a następnie\nwprowadź w postaci liczb całkowitych zajęte miejsca.",
+        "pos": "pozycja...",
+        "score": "punkty (opcjonalnie)",
         "exit": "Wróć do menu",
-        "save": "Zapisz wyniki"
+        "save": "Zapisz wyniki",
+        "error_title": "Błąd formatu",
+        "error": "Wartości muszą być liczbami całkowitymi!"
     },
     "actual_team": {
         "title":"Aktualny skład",
