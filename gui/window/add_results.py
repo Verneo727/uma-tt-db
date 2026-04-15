@@ -18,14 +18,18 @@ class AddResults(tk.Toplevel):
         super().__init__(master=master)
         self.master = master
         self.i18n = I18n(language=lang)
+
         self.title(f"{self.i18n.t("add_results.title")}")
         self.geometry("520x750")
 
         self.team = load_team(app_path)
         self.combo_trials = load_trials_short(app_path)
-
         self.distances = get_distances(app_path)
-        self.roles = ['fr', 'pc', 'ls', 'ec']
+
+        self.entries = {}
+        self.dist_frames = {}
+        self.pos_entries = []
+        self.score_entries = []
 
         self._gui(app_path)
 
@@ -65,12 +69,10 @@ class AddResults(tk.Toplevel):
         )
         self.trial_combo.pack(side="left", expand=True, padx=20)
 
-        self.inputs = {}
         uma_ids = [uid for uid in self.team.values() if uid is not None]
         self.umas_dict = load_umas_by_id(uma_ids, app_path)
 
         dist_names = {row[0]: row[1] for row in self.distances}
-        self.dist_frames = {}
 
         for position, uma_id in self.team.items():
             if uma_id is None:
@@ -90,8 +92,8 @@ class AddResults(tk.Toplevel):
 
             target_frame = self.dist_frames[dist_id]
 
-            if position not in self.inputs:
-                self.inputs[position] = {}
+            if position not in self.entries:
+                self.entries[position] = {}
 
             self.row_frame = tk.Frame(target_frame)
             self.row_frame.pack(fill="x", pady=2)
@@ -109,6 +111,7 @@ class AddResults(tk.Toplevel):
 
             pos_hint = self.i18n.t('add_results.pos')
             self.uma_position_entry = tk.Entry(self.row_frame, fg="grey", width=10)
+            self.pos_entries.append(self.uma_position_entry)
             self.uma_position_entry.insert(0, pos_hint)
             self.uma_position_entry.pack(side="left", padx=(20, 5))
             self.uma_position_entry.bind('<FocusIn>', lambda event, p=pos_hint: self._on_entry_click(event, p))
@@ -116,12 +119,13 @@ class AddResults(tk.Toplevel):
 
             score_hint = self.i18n.t('add_results.score')
             self.uma_score_entry = tk.Entry(self.row_frame, fg="grey", width=20)
+            self.score_entries.append(self.uma_score_entry)
             self.uma_score_entry.insert(0, score_hint)
             self.uma_score_entry.pack(side="left", padx=5)
             self.uma_score_entry.bind('<FocusIn>', lambda event, p=score_hint: self._on_entry_click(event, p))
             self.uma_score_entry.bind('<FocusOut>', lambda event, p=score_hint: self._on_focus_out(event, p))
 
-            self.inputs[position][uma_id] = {
+            self.entries[position][uma_id] = {
                 "pos": self.uma_position_entry,
                 "score": self.uma_score_entry
             }
@@ -149,6 +153,26 @@ class AddResults(tk.Toplevel):
         self.save.pack(side="left", expand=True, padx=20)
         self.bind("<Return>", lambda event: self._save(app_path))
 
+        # POS column TAB bind
+        for i in range(len(self.pos_entries)):
+            if i + 1 < len(self.pos_entries):
+                next_widget = self.pos_entries[i+1]
+            else:
+                next_widget = self.score_entries[0] if self.score_entries else None
+
+            if next_widget:
+                self.pos_entries[i].bind("<Tab>", lambda e, n=next_widget: self._focus_next(e, n))
+
+        # SCORE column TAB Bind
+        for i in range(len(self.score_entries)):
+            if i + 1 < len(self.score_entries):
+                next_widget = self.score_entries[i+1]
+            else:
+                next_widget = self.pos_entries[0]
+
+            if next_widget:
+                self.score_entries[i].bind("<Tab>", lambda e, n=next_widget: self._focus_next(e, n))
+
     def _save(self, app_path, event=None):
         """Save the results to the database"""
         selected_trial = self.trial_combo.get()
@@ -161,7 +185,7 @@ class AddResults(tk.Toplevel):
         score_hint = self.i18n.t('add_results.score')
 
         inputs_to_db = []
-        for pos, uma_inputs in self.inputs.items():
+        for pos, uma_inputs in self.entries.items():
             for uma_id, entries in uma_inputs.items():
                 res_pos = entries["pos"].get().strip()
                 res_score = entries["score"].get().strip()
@@ -212,7 +236,7 @@ class AddResults(tk.Toplevel):
         pos_hint = self.i18n.t('add_results.pos')
         score_hint = self.i18n.t('add_results.score')
 
-        for pos, uma_inputs in self.inputs.items():
+        for pos, uma_inputs in self.entries.items():
             for uma_id, entries in uma_inputs.items():
                 entries["pos"].delete(0, 'end')
                 entries["pos"].insert(0, pos_hint)
@@ -220,9 +244,9 @@ class AddResults(tk.Toplevel):
                 entries["score"].delete(0, 'end')
                 entries["score"].insert(0, score_hint)
                 entries["score"].config(fg="grey")
-        if self.inputs:
+        if self.entries:
             try:
-                first_pos_dict = next(iter(self.inputs.values()))
+                first_pos_dict = next(iter(self.entries.values()))
                 first_input_entry = next(iter(first_pos_dict.values()))
                 first_input_entry["pos"].focus_set()
             except StopIteration:
@@ -239,6 +263,10 @@ class AddResults(tk.Toplevel):
         if widget.get() == '':
             widget.insert(0, pos_hint)
             widget.config(fg="grey")
+
+    def _focus_next(self, event, target):
+        target.focus_set()
+        return "break"
 
     def _exit(self):
         self.destroy()

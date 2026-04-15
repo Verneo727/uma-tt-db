@@ -12,6 +12,7 @@ from database.get_uma import (
     load_umas_by_trial,
     load_uma_result_in_trial)
 from database.get_team import load_team
+from database.get_trials import load_trials
 from core.i18n import I18n
 import numpy as np
 
@@ -36,7 +37,7 @@ class ShowResults(tk.Toplevel):
 
         self._gui()
         self.refresh_uma_list()
-        
+
     def _gui(self):
 
         self.list_row = tk.Frame(self)
@@ -49,12 +50,12 @@ class ShowResults(tk.Toplevel):
         uma_list_frame.grid(row=0, column=0, sticky="nw")
 
         self.uma_list_title = tk.Label(
-            uma_list_frame, 
+            uma_list_frame,
             text=f"{self.i18n.t("score_win.uma_list")}:",
             font=("Helvetica", 10, "bold")
             )
         self.uma_list_title.pack(anchor="w")
-        
+
         self.uma_list = tk.Listbox(uma_list_frame,
                                 height=10,
                                 width=30,
@@ -155,7 +156,7 @@ class ShowResults(tk.Toplevel):
         data = self.load_uma_list()
         self.uma_list.delete(0, tk.END)
         self.uma_list.insert(tk.END, *data)
-        
+
         for i in range(self.uma_list.size()):
             if i % 2 == 0:
                 self.uma_list.itemconfigure(i, background="#3a3a3a", foreground="white")
@@ -173,14 +174,14 @@ class ShowResults(tk.Toplevel):
                 uma_id = int(raw_id)
                 uma_name = load_uma_name(uma_id, self.app_path)
 
-                labels, positions = load_uma_position(uma_id, self.app_path)
+                labels, positions, score = load_uma_position(uma_id, self.app_path)
 
                 if not labels:
                     messagebox.showwarning(f"{self.i18n.t("m_b.error")}", f"{self.i18n.t("m_b.no_data_for_uma")}: {uma_id}")
                     return
 
                 dataset = {str(uma_name): positions}
-                self.chart.update_data(labels, dataset)
+                self.chart.update_data(labels, dataset, scores=score)
 
                 self.selected_trials = None
                 self.selected_uma = uma_id
@@ -222,7 +223,6 @@ class ShowResults(tk.Toplevel):
                 print(e)
 
     def trials_show(self):
-        from database.get_trials import load_trials
         data = load_trials(self.app_path)
         self.trials.delete(0, tk.END)
         self.trials.insert(tk.END, *data)
@@ -301,10 +301,10 @@ class ShowResults(tk.Toplevel):
 
             unique_key = f"{uma_name} [{self.uma_id}]"
 
-            labels, positions = load_uma_position(self.uma_id, self.app_path)
+            labels, positions, _ = load_uma_position(self.uma_id, self.app_path)
             uma_entry = dict(zip(labels, positions))
             raw_data[unique_key] = uma_entry
-            
+
             all_timestamps.update(labels)
 
         sorted_timeline = sorted(list(all_timestamps))

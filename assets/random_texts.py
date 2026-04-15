@@ -8,4 +8,5 @@ RANDOM_TEXT = [
             'Bakushin, Bakushin, Bakushinshin!',
             'Haru Urara, ganbarimaaaasu~!',
             'Hachimi, Hachimi HA-CHI-MI~!',
+            'La Creatura',
 ]

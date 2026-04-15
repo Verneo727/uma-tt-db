@@ -15,7 +15,8 @@ Program works on:
 
 This program is provided as source code. Installation steps vary depending on your operating system:
 
-**Linux**:
+<details>
+<summary><b>Linux:</b></summary>
 
 Open a terminal in your desired destination folder and clone the repository:
 
@@ -36,11 +37,12 @@ Start the program:
 
 `python3 uma.py`
 
+</details>
 
+<details>
+<summary><b>Windows:</b></summary>
 
-**Windows**:
-
-Download and install **Git** from the official website: [link](https://git-scm.com/install/windows)  
+Download and install **Git** from the official website: [link](https://git-scm.com/install/windows)
 
 Download and install **Python3.13** from the official website: [link](https://www.python.org/downloads/windows/)
 
@@ -67,6 +69,28 @@ Install the required dependencies:
 Start the program:
 
 `python uma.py`
+
+</details>
+
+## Rerunning the Application
+
+To run the program again, you must ensure that the virtual environment is active. Follow these steps:
+
+### 1. Activate the Virtual Environment
+
+If your virtual environment is not already active, use the command appropriate for your operating system:
+
+`.\venv\Scripts\activate` - Windows
+
+`source venv/bin/activate` - Linux
+
+### 2. Launch the Program
+
+Once the virtual environment is activated (you should see `(venv)` in your terminal prompt), run the script using:
+
+`python uma.py` - Windows
+
+`python3 uma.py` - Linux
 
 ## Updating the program
 
@@ -98,9 +122,11 @@ Just make sure your virtual environment is activated before running it!
 
 ## Version History
 
-* 0.3.2
-    * public release
-    * Add README.md
+* 0.3.9
+    * Added Uma Score display in the 'View Results' window within the Uma list
+    * Updated README.md
+    * Optimized the chart
+    * Refined TAB navigation in the 'Add Results' window for a better user experience
 
 ### Issues
 

@@ -4,7 +4,7 @@ import tkinter as tk
 
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.ticker import FixedFormatter, FixedLocator
+from matplotlib.ticker import FixedFormatter, FixedLocator, MaxNLocator
 
 class Chart(tk.Frame):
     def __init__(self, parent, x_data=None, y_data=None, view_size=20, *args, **kwargs):
@@ -12,8 +12,9 @@ class Chart(tk.Frame):
 
         self.x_data = list(x_data) if x_data is not None else []
         self.y_data = y_data if y_data is not None else {}
-        self.is_bar = False
+        self.is_bar = False             # Uma's places, different chart
         self.view_size = view_size
+        self.ax2 = None                 # Score axis
 
         self.x_indices = list(range(len(self.x_data)))
 
@@ -34,10 +35,15 @@ class Chart(tk.Frame):
         if self.x_data:
             self.update_data(self.x_data, self.y_data)
 
-    def update_data(self, new_x, new_y, is_bar=False):
+    def update_data(self, new_x, new_y, is_bar=False, scores=None):
         self.x_data = list(new_x)
         self.y_data = new_y
         self.is_bar = is_bar
+        self.scores = scores
+
+        if self.ax2 is not None:
+            self.ax2.remove()
+            self.ax2 = None
 
         if self.is_bar:
             self.x_indices = list(range(len(self.x_data)))
@@ -75,14 +81,53 @@ class Chart(tk.Frame):
                              f'{int(pos)}', ha='center',
                              va='bottom', fontweight='bold',
                              color=text_color)
-            
+
             self.ax.set_xticks(range(len(new_x)))
             self.ax.set_xticklabels(new_x, rotation=45, ha='right')
         else:
+            # Scores as background bars on secondary Y axis
+            if scores is not None and len(scores) > 0:
+                self.ax2 = self.ax.twinx()
+                score_x = list(range(len(scores)))
+                score_vals = [s if s is not None else 0 for s in scores]
+                max_score = max(score_vals) if score_vals else 1
+                self.ax2.set_ylim(0, max(1, max_score * 1.25)) # in future add this as a user config
+                bars = self.ax2.bar(
+                    score_x,
+                    score_vals,
+                    color='steelblue',
+                    alpha=0.20,
+                    width=0.8,
+                    zorder=2,
+                    label='Score',
+                )
+                # Label each bar with the score value
+                for bar, val in zip(bars, score_vals):
+                    if val:
+                        self.ax2.text(
+                            bar.get_x() + bar.get_width() / 2.,
+                            bar.get_height(),
+                            f'{int(val):,}',
+                            ha='center',
+                            va='bottom',
+                            fontsize=8,
+                            color='steelblue',
+                            alpha=0.75,
+                            zorder=2,
+                            clip_on=True,
+                        )
+                self.ax2.set_ylabel('Score', fontsize=7, color='steelblue', labelpad=2)
+                self.ax2.tick_params(axis='y', labelsize=6, colors='steelblue')
+
+                self.ax2.yaxis.set_major_locator(MaxNLocator(nbins=4, integer=True))
+
+                self.ax2.set_zorder(self.ax.get_zorder() - 1)
+                self.ax.set_frame_on(False)
+
             if isinstance(self.y_data, dict):
                 for name, values in self.y_data.items():
                     current_x = list(range(len(values)))
-                    
+
                     line, = self.ax.plot(current_x, values, marker='o', markersize=3, label=str(name), linewidth=1.5, zorder=2)
 
                     current_color = line.get_color()
@@ -111,6 +156,7 @@ class Chart(tk.Frame):
                 if self.y_data:
                     self.ax.legend(loc='lower left', fontsize='small', ncol=2 if len(self.y_data) >5 else 1)
 
+        self.fig.subplots_adjust(left=0.05, right=0.95, top=0.9, bottom=0.25)
         self.update_view()
 
     def _set_x_limits(self, start_idx):
@@ -118,24 +164,40 @@ class Chart(tk.Frame):
         end_idx = start_idx + self.view_size
         self.ax.set_xlim(start_idx - 0.5, end_idx - 0.5)
 
+        if self.ax2 is not None:
+            self.ax2.set_xlim(start_idx - 0.5, end_idx - 0.5)
+
         visible_indices = list(range(start_idx, min(end_idx, len(self.x_data))))
+
         if visible_indices:
             self.ax.xaxis.set_major_locator(FixedLocator(visible_indices))
             self.ax.xaxis.set_major_formatter(FixedFormatter([str(self.x_data[i]) for i in visible_indices]))
 
         self.ax.tick_params(axis='x', labelrotation=90, labelsize=8)
-        self.fig.tight_layout()
+        self.fig.subplots_adjust(left=0.05, right=0.95, top=0.9, bottom=0.25)
         self.canvas.draw_idle()
 
     def _on_scroll(self, *args):
         total = len(self.x_indices)
-        if total <= self.view_size: return
-        if args[0] == 'moveto': pos = float(args[1])
+        if total <= self.view_size:
+            return
+        if args[0] == 'moveto':
+            pos = float(args[1])
+        elif args[0] == 'scroll':
+            current_pos = self.scrollbar.get()[0]
+            step = 1.0 / (total - self.view_size)
+            if args[2] == 'units':
+                pos = current_pos + (int(args[1]) * step)
+            else:
+                pos = current_pos + (int(args[1]) * step * 5)
         else:
-            curr = self.scrollbar.get()[0]
-            pos = max(0, min(1.0, curr + (0.05 if args[1] == '1' else -0.05)))
+            return
+
+        pos = max(0.0, min(1.0, pos))
+
         start_idx = int(pos * (total - self.view_size))
-        self.scrollbar.set(start_idx/total, (start_idx + self.view_size)/total)
+
+        self.scrollbar.set(start_idx/total, (start_idx + self.view_size) / total)
         self._set_x_limits(start_idx)
 
     def update_view(self):
