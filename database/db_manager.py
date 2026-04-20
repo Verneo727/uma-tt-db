@@ -2,6 +2,7 @@
 
 import sqlite3
 import configparser
+import sys
 
 from pathlib import Path
 from setup.config import load_db_path
@@ -28,12 +29,21 @@ def create_db(app_path):
 
     cur.execute("PRAGMA user_version")
     version = cur.fetchone()
-    version = version[0]
+    version = version[0] if version else 0
 
     if version < 1:
         cur.executescript(sql_script)
         cur.execute("PRAGMA user_version = 1")
-        print("Database inicialized to version 1.")
+        print("Database initialized to version 1.")
+
+    # Protection against database incompatibility.
+    # Database sourced from a newer version of the program.
+    # !Must be updated when the database version changes.
+    # !Actual: 1
+    if version > 1:
+        print("The database is too new!\n>Please, update the program!")
+        con.close()
+        sys.exit(1)
 
     con.commit()
     con.close()
