@@ -259,10 +259,11 @@ class ShowResults(tk.Toplevel):
                 uma_id = int(raw_id)
                 uma_name = load_uma_name(uma_id, self.app_path)
 
-                labels, positions, score = load_uma_position(uma_id, self.app_path)
+                labels, positions, score, tiers = load_uma_position(uma_id, self.app_path)
 
                 if not labels:
-                    messagebox.showwarning(f"{self.i18n.t("m_b.error")}", f"{self.i18n.t("m_b.no_data_for_uma")}: {uma_id}")
+                    messagebox.showwarning(f"{self.i18n.t("m_b.error")}",
+                                           f"{self.i18n.t("m_b.no_data_for_uma")}: {uma_id}")
                     return
 
                 clean_scores = [s for s in score if s is not None]
@@ -276,7 +277,8 @@ class ShowResults(tk.Toplevel):
                     self.uma_list_average.config(text="")
 
                 dataset = {str(uma_name): positions}
-                self.chart.update_data(labels, dataset, scores=score)
+                self.chart.update_data(labels, dataset,
+                                       scores=score, bar_bg_tiers=tiers)
 
                 self.selected_trials = None
                 self.selected_uma = uma_id
@@ -353,7 +355,7 @@ class ShowResults(tk.Toplevel):
                 uma_names = [f"{d['name']} ({d['dist_name']})" for d in trial_data]
                 positions = [d['pos'] for d in trial_data]
 
-                self.chart.update_data(uma_names, positions, is_bar=True)
+                self.chart.update_data(uma_names, positions, is_bar=True, bar_bg_tiers=None)
 
             except (IndexError, ValueError) as e:
                 print(e)
@@ -407,7 +409,7 @@ class ShowResults(tk.Toplevel):
 
             unique_key = f"{uma_name} [{self.uma_id}]"
 
-            labels, positions, _ = load_uma_position(self.uma_id, self.app_path)
+            labels, positions, _, _ = load_uma_position(self.uma_id, self.app_path)
             uma_entry = dict(zip(labels, positions))
             raw_data[unique_key] = uma_entry
 

@@ -39,7 +39,7 @@ def load_umas_by_id(uma_ids, app_path):
 
 def load_uma_position(uma_id, app_path):
     """
-    Retrieve Uma's race positions and timestamps by her ID.
+    Retrieve Uma's race positions, timestamps and class tiers by her ID.
     Results are sorted chronologically.
     """
     db_path = load_db_path(app_path)
@@ -47,7 +47,7 @@ def load_uma_position(uma_id, app_path):
     cur = con.cursor()
 
     sql = """
-    SELECT t.Trial_Date, t.Trial_Time, r.Position, r.Score
+    SELECT t.Trial_Date, t.Trial_Time, r.Position, r.Score, t.Class_ID
     FROM Results r
     JOIN Trials t ON r.Trial_ID = t.Trial_ID
     WHERE r.Uma_ID = ?
@@ -59,8 +59,9 @@ def load_uma_position(uma_id, app_path):
     labels = [f"{row[0]} {row[1]}" for row in rows]
     positions = [row[2] for row in rows]
     scores = [row[3] for row in rows]
+    tiers = [row[4] for row in rows]
 
-    return labels, positions, scores
+    return labels, positions, scores, tiers
 
 def load_uma_name(uma_id, app_path):
     """Retrieve Uma's name by her ID."""

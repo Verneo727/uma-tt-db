@@ -6,6 +6,8 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.ticker import FixedFormatter, FixedLocator, MaxNLocator
 
+from assets.colors import tier_colors
+
 class Chart(tk.Frame):
     def __init__(self, parent, x_data=None, y_data=None, view_size=20, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
@@ -36,7 +38,8 @@ class Chart(tk.Frame):
         if self.x_data:
             self.update_data(self.x_data, self.y_data)
 
-    def update_data(self, new_x, new_y, is_bar=False, scores=None):
+    def update_data(self, new_x, new_y, is_bar=False,
+                    scores=None, bar_bg_tiers=None):
         self.x_data = list(new_x)
         self.y_data = new_y
         self.is_bar = is_bar
@@ -102,7 +105,7 @@ class Chart(tk.Frame):
                     score_x,
                     score_vals,
                     color='steelblue',
-                    alpha=0.20,
+                    alpha=0.40,
                     width=0.8,
                     zorder=2,
                     label='Score',
@@ -184,6 +187,13 @@ class Chart(tk.Frame):
                 if self.y_data:
                     self.ax.legend(loc='lower left', fontsize='small',
                                    ncol=2 if len(self.y_data) >5 else 1)
+
+        if bar_bg_tiers is not None and len(bar_bg_tiers) == len(new_x):
+            target_ax = self.ax2 if self.ax2 is not None else self.ax
+
+            for i, tier in enumerate(bar_bg_tiers):
+                if tier in tier_colors:
+                    target_ax.axvspan(i - 0.5, i + 0.5, facecolor=tier_colors[tier], alpha=0.3, zorder=0)
 
         self.fig.subplots_adjust(left=0.07, right=0.95, top=0.9, bottom=0.25)
         self.update_view()

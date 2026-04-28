@@ -3,6 +3,7 @@
 import sqlite3
 import configparser
 import sys
+import shutil
 
 from pathlib import Path
 from setup.config import load_db_path
@@ -40,6 +41,13 @@ def create_db(app_path):
         print("Database initialized to version 1.")
 
     if version == 1:
+        backup_path = f"{db_path}.backup"
+        try:
+            shutil.copy2(db_path, backup_path)
+        except Exception as e:
+            print(f"Error during creating database backup file:\n{e}")
+            print(">> Please contact with developer.")
+            sys.exit(1)
         cur.executescript(sql2_script)
         cur.execute("PRAGMA user_version = 2")
         version = 2
