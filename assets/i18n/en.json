@@ -91,7 +91,8 @@
         "exit": "Back to menu",
         "save": "Add Results",
         "error_title": "Format Error",
-        "error": "Values must be integers!"
+        "error": "Values must be integers!",
+        "nothing": "Nothing to add..."
     },
     "actual_team": {
         "title":"Actual Team",

@@ -215,7 +215,6 @@ class AddTrial(tk.Toplevel):
             width=5)
         self.difficulty_combo.grid(row=0, column=3)
 
-
     def _buttons(self):
         self.btn_row = tk.Frame(self)
         self.btn_row.grid(padx=10, pady=15)
