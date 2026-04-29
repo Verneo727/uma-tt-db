@@ -122,11 +122,20 @@ Just make sure your virtual environment is activated before running it!
 
 ## Version History
 
-* 0.3.9
-    * Added Uma Score display in the 'View Results' window within the Uma list
-    * Updated README.md
-    * Optimized the chart
-    * Refined TAB navigation in the 'Add Results' window for a better user experience
+* 0.4.0
+    * Added migration to new database version
+    * Added new database tables: Rivals, Classes, and Trial Difficulty
+    * Expanded the existing Trials table
+    * Added optional fields to the 'Add TT Race' window: Rival, Points, Difficulty, and Class
+    * Added a notification for successfully saving a TT Race and Results to the database
+    * Added rival's nickname display next to the race list in 'Add Results'
+    * Updated the 'Add Results' list to show only incomplete races
+    * Added TT Class display as a background color on the chart
+    * Added database backup creation during migration
+* 0.4.1
+    * Added button to view local files (database, config) in info label in 'Main Window'
+* 0.4.2
+    * Added workflow for Github Actions
 
 ### Issues
 

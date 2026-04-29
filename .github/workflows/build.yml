@@ -1,6 +1,9 @@
 
 name: Build Releases
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   push:
     branches:
@@ -59,6 +62,7 @@ jobs:
   release:
     needs: [build-windows, build-linux]
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
     permissions:
       contents: write
     steps:
