@@ -27,7 +27,7 @@ jobs:
         run: pip install pyinstaller -r requirements.txt
 
       - name: Build exe
-        run: pyinstaller uma-tt-db.spec
+        run: pyinstaller uma-tt-db-windows.spec
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -51,7 +51,7 @@ jobs:
         run: pip install pyinstaller -r requirements.txt
 
       - name: Build binary
-        run: pyinstaller  uma-tt-db.spec
+        run: pyinstaller  uma-tt-db-linux.spec
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
